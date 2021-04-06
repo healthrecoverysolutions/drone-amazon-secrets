@@ -93,5 +93,14 @@ func (p *plugin) find(path string) (map[string]string, error) {
 
 	set := map[string]string{}
 	err = json.Unmarshal(raw, &set)
+	if err != nil {
+		var plainSet string
+		_ = json.Unmarshal(raw, &plainSet)
+		wrappedSet := map[string]string{
+			"value": plainSet,
+		}
+		return wrappedSet, nil
+	}
+
 	return set, err
 }

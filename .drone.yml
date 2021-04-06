@@ -14,14 +14,12 @@ steps:
   - CGO_ENABLED=0 go build -o release/linux/amd64/drone-amazon-secrets github.com/drone/drone-amazon-secrets/cmd/drone-amazon-secrets
 
 - name: publish
-  image: plugins/docker
+  image: plugins/ecr
   settings:
-    auto_tag: true
-    dockerfile: docker/Dockerfile
-    password:
-      from_secret: docker_password
-    repo: drone/amazon-secrets
-    username:
-      from_secret: docker_username
-
+    create_repository: true
+    repo: drone-amazon-secrets-plain
+    registry: 072805691757.dkr.ecr.us-east-1.amazonaws.com
+    when:
+      branch:
+        - master
 ...
