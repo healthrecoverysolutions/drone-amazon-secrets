@@ -8,6 +8,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"github.com/sirupsen/logrus"
 
 	"github.com/drone/drone-go/drone"
 	"github.com/drone/drone-go/plugin/secret"
@@ -43,6 +44,8 @@ func (p *plugin) Find(ctx context.Context, req *secret.Request) (*drone.Secret, 
 		return nil, errors.New("secret not found")
 	}
 	value := params[req.Name]
+
+	logrus.Infof("Found in %s: %#v", req.Path, params)
 
 	// the user can filter out requets based on event type
 	// using the X-Drone-Events secret key. Check for this
